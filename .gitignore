@@ -10,3 +10,6 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+gegosc.iws
+gegosc.ipr
+gegosc.iml
