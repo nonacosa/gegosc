@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/GeertJohan/go.rice"
 	"log"
 	"html/template"
 	"net/http"
@@ -29,7 +30,22 @@ func logger (f http.HandlerFunc) http.HandlerFunc  {
 	}
 }
 func home(writer http.ResponseWriter, request *http.Request) {
-	homeTemp := template.Must(template.ParseFiles("html/templates/layout.html"))
+
+	templateBox, err := rice.FindBox("../html/templates")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// get file contents as string
+	templateString, err := templateBox.String("layout.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// parse and execute the template
+	layoutTemp, err := template.New("layout").Parse(templateString)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	data := TodoPageData{
 		PageTitle: "My TODO list",
 		Todos: []Todo{
@@ -38,10 +54,25 @@ func home(writer http.ResponseWriter, request *http.Request) {
 			{Title: "Task 3", Done: true},
 		},
 	}
-	homeTemp.Execute(writer, data)
+	layoutTemp.Execute(writer, data)
 }
 func generate(writer http.ResponseWriter, request *http.Request) {
-	generateTemp := template.Must(template.ParseFiles("html/generate.html"))
+
+	templateBox, err := rice.FindBox("../html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// get file contents as string
+	templateString, err := templateBox.String("generate.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// parse and execute the template
+	generateTemp, err := template.New("generate").Parse(templateString)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 
 	if request.Method != http.MethodPost {
 		generateTemp.Execute(writer, nil)
@@ -68,8 +99,10 @@ func main() {
 
 
 
-	fs := http.FileServer(http.Dir("assets/"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	box := rice.MustFindBox("../assets")
+	cssFileServer := http.StripPrefix("/static/", http.FileServer(box.HTTPBox()))
+	http.Handle("/static/", cssFileServer)
 
 	http.ListenAndServe(":8880", nil)
 }
