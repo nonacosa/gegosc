@@ -8,15 +8,8 @@
 <body>
 <h1> This is Generate Page ! </h1>
   <ul>
-    {{.}}
-    {{.}}
-  {{range .files}}
-    <li class="done">{{.name}}</li>
-  {{if .Done}}
-    <li class="done">{{.name}}</li>
-  {{else}}
-    <li>{{.name}}</li>
-  {{end}}
+  {{range .}}
+    <li class="done">{{.Name}}</li>
   {{end}}
   </ul>
 </body>

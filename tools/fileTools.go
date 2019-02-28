@@ -8,8 +8,8 @@ import (
 
 
 type Files struct {
-	isDir   bool
-	name 	string
+	IsDir   bool
+	Name 	string
 }
 
 
@@ -20,8 +20,8 @@ func FilePathWalkDir(root string) ([] Files, error) {
 		//	files = append(files, path)
 		//}
 		files = append(files, Files{
-			isDir: info.IsDir(),
-			name:  info.Name(),
+			IsDir: info.IsDir(),
+			Name:  info.Name(),
 		})
 		return nil
 	})
@@ -38,8 +38,8 @@ func IOReadDir(root string) ([] Files, error) {
 
 	for _, file := range fileInfo {
 		files = append(files, Files{
-			isDir: file.IsDir(),
-			name:  file.Name(),
+			IsDir: file.IsDir(),
+			Name:  file.Name(),
 		})
 
 	}
