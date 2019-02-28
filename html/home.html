@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>
+   </title>
+</head>
+<body>
+<h1> This is Generate Page ! </h1>
+  <ul>
+    {{.}}
+    {{.}}
+  {{range .files}}
+    <li class="done">{{.name}}</li>
+  {{if .Done}}
+    <li class="done">{{.name}}</li>
+  {{else}}
+    <li>{{.name}}</li>
+  {{end}}
+  {{end}}
+  </ul>
+</body>
+</html>
